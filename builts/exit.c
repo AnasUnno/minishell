@@ -6,11 +6,17 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:11:19 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/12 17:51:13 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:56:19 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+void	atoi_helper(void)
+{
+	ft_printf("bash: exit: numeric argument required\n");
+	exit(255);
+}
 
 int	ft_atoi(char *s)
 {
@@ -28,15 +34,9 @@ int	ft_atoi(char *s)
 	{
 		n = (*s - 48) * sign;
 		if (nb > (LLONG_MAX / 10) || (nb == (LLONG_MAX / 10) && n > 7))
-		{
-			ft_printf("bash: exit: numeric argument required\n");
-			exit(255);
-		}
+			atoi_helper();
 		if (nb < (LLONG_MIN / 10) || (nb == (LLONG_MIN / 10) && n < -8))
-		{
-			ft_printf("bash: exit: numeric argument required\n");
-			exit(255);
-		}
+			atoi_helper();
 		nb = nb * 10 + n;
 		s++;
 	}
@@ -70,7 +70,7 @@ int	check_numerique(char *str)
 		if (ft_isdigit((int)str[i]))
 			i++;
 		else
-			return (0);	
+			return (0);
 	}
 	return (1);
 }
@@ -86,7 +86,8 @@ int	ft_exit(char **av)
 	}
 	else if (av[0] && !check_numerique(av[0]))
 	{
-		ft_printf("exit\nminishell: exit: %s: numeric argument required\n", av[0]);
+		ft_printf("exit\nminishell: exit: %s: numeric argument required\n",
+			av[0]);
 		exit(255);
 	}
 	else if (count_arg(av) == 1 && check_numerique(av[0]))

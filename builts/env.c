@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:07:13 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/10 17:45:14 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/13 15:11:53 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ void	get_environement(char **env, t_data **environement)
 
 	i = -1;
 	if (!env)
-		return;
+		return ;
 	while (env[++i])
 	{
 		lenght1 = 0;
 		lenght2 = 0;
 		get_start_end(env[i], &lenght1, &lenght2);
 		if (!(*environement))
-			(*environement) = ft_mylstnew(ft_substr(env[i] , 0, lenght1), \
-				ft_substr(env[i], lenght1 + 1, lenght2));
+			(*environement) = ft_mylstnew(ft_substr(env[i], 0, lenght1),
+					ft_substr(env[i], lenght1 + 1, lenght2));
 		else
 		{
-			tmp = ft_mylstnew(ft_substr(env[i] , 0, lenght1), \
-				ft_substr(env[i], lenght1 + 1, lenght2));
+			tmp = ft_mylstnew(ft_substr(env[i], 0, lenght1),
+					ft_substr(env[i], lenght1 + 1, lenght2));
 			ft_lstadd_back(environement, tmp);
 			tmp = NULL;
 		}
@@ -67,16 +67,16 @@ void	reset_old_pwd(t_data **envi)
 	}
 }
 
-void    env(t_data *envi)
+void	env(t_data *envi)
 {
-    while (envi)
-    {
-        if (envi->value)
-        {
-            printf("%s", envi->variable);
-            printf("=");
-            printf("%s\n", envi->value);
-        }
-        envi = envi->next;
-    }
+	while (envi)
+	{
+		if (envi->value)
+		{
+			printf("%s", envi->variable);
+			printf("=");
+			printf("%s\n", envi->value);
+		}
+		envi = envi->next;
+	}
 }

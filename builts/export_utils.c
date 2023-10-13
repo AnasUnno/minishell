@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:37:31 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/09 16:24:47 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:57:01 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int	check_export_args(char *str)
 			}
 			i++;
 		}
-			if (str[i] == '+' && str[i + 1] != '=')
-			{
-				printf("Minishell: export: `%s': not a valid identifier", str);
-				return (0);
-			}
+		if (str[i] == '+' && str[i + 1] != '=')
+		{
+			printf("Minishell: export: `%s': not a valid identifier", str);
+			return (0);
+		}
 		return (1);
 	}
 	printf("Minishell: export: `%s': not a valid identifier\n", str);
@@ -56,7 +56,7 @@ int	get_value_lenght(int end, char *str)
 		end += 2;
 	else if (str[end] == '=')
 		end++;
-	while(str[end])
+	while (str[end])
 		end++;
 	return (end);
 }
@@ -71,7 +71,7 @@ int	check_append_new(char *str)
 	if (!str[i])
 		return (0);
 	if (str[i] == '=' && str[i - 1] == '+')
-		return(1);
+		return (1);
 	if (str[i] == '=' && str[i - 1] != '+')
 		return (2);
 	return (-1);

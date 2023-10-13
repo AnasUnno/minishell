@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:56:24 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/12 17:54:14 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:52:07 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@ int	cd_old_pwd(char *path, t_data **envi)
 	{
 		tmp = get_variable(*envi, "OLDPWD");
 		if (tmp->value)
-			chdir(tmp->value);
-		else
 		{
-			ft_printf("Minishell: cd: OLDPWD not set\n");
-			return (1);
+			if (chdir(tmp->value) == -1)
+			{
+				ft_printf("minishell: cd: %s: No such file or directory\n",
+					tmp->value);
+				return (1);
+			}
 		}
+		else
+			return (ft_printf("Minishell: cd: OLDPWD not set\n"), 1);
 	}
 	return (0);
 }
@@ -38,7 +42,7 @@ int	cd_old_pwd(char *path, t_data **envi)
 int	cd_home(char *path, t_data **envi)
 {
 	t_data	*tmp;
-	
+
 	tmp = get_variable(*envi, "HOME");
 	if (!path)
 	{
@@ -46,7 +50,12 @@ int	cd_home(char *path, t_data **envi)
 			ft_printf("Minishell: cd: HOME not set\n");
 		else
 		{
-			chdir(tmp->value);
+			if (chdir(tmp->value) == -1)
+			{
+				ft_printf("minishell: cd: %s: No such file or directory\n", 
+					tmp->value);
+				return (1);
+			}
 			return (0);
 		}
 	}
@@ -56,7 +65,7 @@ int	cd_home(char *path, t_data **envi)
 int	cd_home2(char *path, t_data **envi)
 {
 	t_data	*tmp;
-	
+
 	if (ft_strcmp(path, "~"))
 		ft_printf("Minishell: cd: %s: No such file or directory\n", path);
 	else
@@ -66,7 +75,12 @@ int	cd_home2(char *path, t_data **envi)
 			ft_printf("Minishell: cd: HOME not set\n");
 		else
 		{
-			chdir(tmp->value);
+			if (chdir(tmp->value) == -1)
+			{
+				ft_printf("minishell: cd: %s: No such file or directory\n",
+					tmp->value);
+				return (1);
+			}
 			return (0);
 		}
 	}
@@ -113,5 +127,7 @@ int	cd(char *path, t_data **envi)
 		r_type = chdir(path);
 	if (!r_type)
 		update_pwd(path, &tmp, &tmp2, str);
+	else
+		return (ft_printf("Minishell: cd: OLDPWD not set\n"), 1);
 	return (r_type);
 }

@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:08:19 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/12 17:51:35 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:59:00 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	check_unset_params(char *str)
 		{
 			if (str[i] != '_' && !ft_isalnum((int)str[i]))
 			{
-				ft_printf("Minishell: unset: `%s': not a valid identifier\n", str);
+				ft_printf("Minishell: unset: `%s': not a valid identifier\n",
+					str);
 				return (0);
 			}
 			i++;
@@ -60,7 +61,6 @@ int	check_pos(t_data *envi, t_data *tmp)
 
 t_data	*get_before(t_data *envi, t_data *tmp)
 {
-
 	while (envi)
 	{
 		if (envi->next == tmp || !envi->next)
@@ -78,7 +78,7 @@ void	unset(char **av, t_data **environement)
 
 	i = 0;
 	while (av[i])
-	{	
+	{
 		if (!check_unset_params(av[i]))
 			i++;
 		else
@@ -87,11 +87,11 @@ void	unset(char **av, t_data **environement)
 			if (!tmp || !*environement)
 				return ;
 			if (check_pos(*environement, tmp) == 1)
-                first_on(&tmp, environement);
+				first_on(&tmp, environement);
 			else if (check_pos(*environement, tmp) == 0)
-                last_on(&tmp2, &tmp, environement);
+				last_on(&tmp2, &tmp, environement);
 			else
-                in_middle(&tmp2, &tmp, environement);
+				in_middle(&tmp2, &tmp, environement);
 			i++;
 		}
 	}

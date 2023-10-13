@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:55:02 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/09 16:28:52 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:51:08 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	check_full_n(char *str)
 		return (0);
 	}
 	return (0);
-	
 }
 
 int	echo(char **av)
@@ -50,7 +49,7 @@ int	echo(char **av)
 		{
 			while (av[i])
 			{
-				printf("%s",av[i++]);
+				printf("%s", av[i++]);
 				if (av[i])
 					printf(" ");
 			}

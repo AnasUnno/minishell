@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:44:34 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/12 16:03:29 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:59:13 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_lstadd_back(t_data **lst, t_data *new)
 
 t_data	*ft_lstlast(t_data *lst)
 {
-	if (!lst )
+	if (!lst)
 		return (NULL);
 	while (lst)
 	{

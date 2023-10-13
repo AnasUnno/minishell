@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 21:04:35 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/09 16:26:17 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:57:31 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,15 @@ void	append_operation(t_export *exp, char *av, t_data **envi)
 {
 	if (!exp->tmp)
 	{
-		exp->tmp = ft_mylstnew(ft_substr(av, 0, exp->end), ft_substr(av, exp->end + 2, exp->end1));
+		exp->tmp = ft_mylstnew(ft_substr(av, 0, exp->end),
+				ft_substr(av, exp->end + 2, exp->end1));
 		ft_lstadd_back(envi, exp->tmp);
 	}
 	else if (exp->tmp)
 	{
 		exp->str = exp->tmp->value;
-		exp->tmp->value = ft_strjoin(exp->str, ft_substr(av, exp->end + 2, exp->end1));
+		exp->tmp->value = ft_strjoin(exp->str,
+				ft_substr(av, exp->end + 2, exp->end1));
 		free(exp->str);
 	}
 }
@@ -52,7 +54,8 @@ void	create_update(t_export *exp, char *av, t_data **envi)
 {
 	if (!exp->tmp)
 	{
-		exp->tmp = ft_mylstnew(ft_substr(av, 0, exp->end), ft_substr(av, exp->end + 1, exp->end1));
+		exp->tmp = ft_mylstnew(ft_substr(av, 0, exp->end),
+				ft_substr(av, exp->end + 1, exp->end1));
 		ft_lstadd_back(envi, exp->tmp);
 	}
 	else
