@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:07:13 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/13 15:11:53 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:30:54 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	reset_old_pwd(t_data **envi)
 	}
 }
 
-void	env(t_data *envi)
+int	env(t_data *envi)
 {
 	while (envi)
 	{
@@ -79,4 +79,5 @@ void	env(t_data *envi)
 		}
 		envi = envi->next;
 	}
+	return (0);
 }

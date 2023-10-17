@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:04:42 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/17 14:46:48 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:17:51 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		echo(char **av);
 void	get_environement(char **env, t_data **environement);
 void	reset_old_pwd(t_data **envi);
 void	env(t_data *envi);
-int		check_export_args(char *str);
+int		check_export_args(char *str, int *status);
 int		get_var_lenght(char *str);
 int		get_value_lenght(int end, char *str);
 int		check_append_new(char *str);
@@ -50,16 +50,16 @@ void	no_option_export(t_data *envi);
 void	initialize_exp_variable(t_export *var, char *av, t_data *envi);
 void	append_operation(t_export *exp, char *av, t_data **envi);
 void	create_update(t_export *exp, char *av, t_data **envi);
-void	export(char **av, t_data **envi);
+int		export(char **av, t_data **envi);
 int		pwd(void);
 void	first_on(t_data **tmp, t_data **environement);
 void	last_on(t_data **tmp2, t_data **tmp, t_data **environement);
 void	in_middle(t_data **tmp2, t_data **tmp, t_data **environement);
-int		check_unset_params(char *str);
+int		check_unset_params(char *str, int *status);
 t_data	*get_variable(t_data *envi, char *str);
 int		check_pos(t_data *envi, t_data *tmp);
 t_data	*get_before(t_data *envi, t_data *tmp);
-void	unset(char **av, t_data **environement);
+int		unset(char **av, t_data **environement);
 t_data	*ft_mylstnew(char *content, char *content2);
 void	ft_lstadd_back(t_data **lst, t_data *new);
 t_data	*ft_lstlast(t_data *lst);

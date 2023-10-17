@@ -6,13 +6,13 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:08:19 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/14 13:48:20 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:08:25 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	check_unset_params(char *str)
+int	check_unset_params(char *str, int *status)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int	check_unset_params(char *str)
 			{
 				ft_printf("Minishell: unset: `%s': not a valid identifier\n",
 					str);
-				return (0);
+				return (*status = 1, 0);
 			}
 			i++;
 		}
@@ -35,7 +35,7 @@ int	check_unset_params(char *str)
 	else
 	{
 		ft_printf("Minishell: unset: `%s': not a valid identifier\n", str);
-		return (0);
+		return (*status = 1, 0);
 	}
 }
 
@@ -56,7 +56,8 @@ int	check_pos(t_data *envi, t_data *tmp)
 		return (0);
 	else if (tmp == envi)
 		return (1);
-	return (-1);
+	else if (tmp)
+		return (2);
 }
 
 t_data	*get_before(t_data *envi, t_data *tmp)
@@ -67,32 +68,33 @@ t_data	*get_before(t_data *envi, t_data *tmp)
 			return (envi);
 		envi = envi->next;
 	}
-	return (envi);
+	return (NULL);
 }
 
-void	unset(char **av, t_data **environement)
+int	unset(char **av, t_data **environement)
 {
 	int		i;
 	t_data	*tmp;
 	t_data	*tmp2;
+	int		status;
 
 	i = 0;
+	status = 0;
 	while (av[i])
 	{
-		if (!check_unset_params(av[i]))
+		if (!check_unset_params(av[i], &status))
 			i++;
 		else
 		{
 			tmp = get_variable(*environement, av[i]);
-			if (!tmp || !*environement)
-				return ;
 			if (check_pos(*environement, tmp) == 1)
 				first_on(&tmp, environement);
 			else if (check_pos(*environement, tmp) == 0)
 				last_on(&tmp2, &tmp, environement);
-			else
+			else if (check_pos(*environement, tmp) == 2)
 				in_middle(&tmp2, &tmp, environement);
 			i++;
 		}
 	}
+	return (status);
 }

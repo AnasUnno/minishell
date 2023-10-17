@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 21:04:35 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/13 14:57:31 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:17:36 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,18 @@ void	create_update(t_export *exp, char *av, t_data **envi)
 	}
 }
 
-void	export(char **av, t_data **envi)
+int	export(char **av, t_data **envi)
 {
 	int			i;
 	t_export	exp;
+	int			status;
 
 	i = 0;
+	status = 0;
 	while (av[i])
 	{
 		initialize_exp_variable(&exp, av[i], *envi);
-		if (!check_export_args(av[i]))
+		if (!check_export_args(av[i], &status))
 			i++; 
 		else
 		{
@@ -87,4 +89,5 @@ void	export(char **av, t_data **envi)
 			i++;
 		}
 	}
+	return (status);
 }

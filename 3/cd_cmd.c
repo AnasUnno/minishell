@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:56:24 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/13 14:52:07 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:29:58 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,7 @@ int	cd(char *path, t_data **envi)
 		update_pwd(path, &tmp, &tmp2, str);
 	else
 		return (ft_printf("Minishell: cd: OLDPWD not set\n"), 1);
+	if (r_type == -1)
+		return (1);
 	return (r_type);
 }

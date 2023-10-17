@@ -6,13 +6,13 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:37:31 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/13 14:57:01 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:17:01 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	check_export_args(char *str)
+int	check_export_args(char *str, int *status)
 {
 	int	i;
 
@@ -25,19 +25,19 @@ int	check_export_args(char *str)
 			if (str[i] != '_' && !ft_isalnum((int)str[i]))
 			{
 				printf("Minishell: export: `%s': not a valid identifier", str);
-				return (0);
+				return (*status = 1, 0);
 			}
 			i++;
 		}
 		if (str[i] == '+' && str[i + 1] != '=')
 		{
 			printf("Minishell: export: `%s': not a valid identifier", str);
-			return (0);
+			return (*status = 1, 0);
 		}
 		return (1);
 	}
 	printf("Minishell: export: `%s': not a valid identifier\n", str);
-	return (0);
+	return (*status = 1, 0);
 }
 
 int	get_var_lenght(char *str)
