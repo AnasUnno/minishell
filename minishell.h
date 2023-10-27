@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 08:11:56 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/26 13:41:16 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:43:56 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ typedef struct s_vars
 	int		in_quote;
 	char	*white_spaces;
 	char	*str;
+	char	*trimmed;
+	char	*tmp;
 	char	*del;
 	int		fd;
 	int		backup_fd;

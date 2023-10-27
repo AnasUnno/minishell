@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 11:07:31 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/26 14:11:54 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:53:49 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,18 @@ char	**ft_split2(char *str)
 
 	var.white_spaces = " \t\n";
 	helper(&var.in_quote, &var.i, &var.j, &var.start);
-	var.count = count_words(str);
+	var.trimmed = ft_strtrim(str, " \t");
+	free(str);
+	var.count = count_words(var.trimmed);
 	var.splited = (char **)malloc(sizeof(char *) * (var.count + 1));
-	while (str[var.i])
+	while (var.trimmed[var.i])
 	{
-		if ((str[var.i] == '\'' || str[var.i] == '\"') && !var.in_quote)
-			helper3(str, &var.in_quote, &var.i, &var.c);
-		else if (str[var.i] == var.c && var.in_quote)
+		if ((var.trimmed[var.i] == '\'' || var.trimmed[var.i] == '\"') && !var.in_quote)
+			helper3(var.trimmed, &var.in_quote, &var.i, &var.c);
+		else if (var.trimmed[var.i] == var.c && var.in_quote)
 			helper4(&var.in_quote, &var.i, &var.c);
-		else if (ft_strchr(var.white_spaces, str[var.i]) && !var.in_quote)
-			var.splited[var.j++] = helper2(str, &var.i, &var.start);
+		else if (ft_strchr(var.white_spaces, var.trimmed[var.i]) && !var.in_quote)
+			var.splited[var.j++] = helper2(var.trimmed, &var.i, &var.start);
 		else
 			var.i++;
 	}
@@ -101,10 +103,10 @@ char	**ft_split2(char *str)
 	{
 		var.splited[var.j] = (char *)malloc(sizeof(char) \
 			* ((var.i - var.start) + 1));
-		ft_strncpy(var.splited[var.j++], &str[var.start], var.i - var.start);
+		ft_strncpy(var.splited[var.j++], &var.trimmed[var.start], var.i - var.start);
 	}
 	var.splited[var.j] = NULL;
-	return (var.splited);
+	return (free(var.trimmed), var.splited);
 }
 
 void	handler(int num)
@@ -149,7 +151,12 @@ int	main(int ac, char **av, char **env)
 		}
 		var.final = final_str(var.cmd);
 		var.command = ft_split2(var.final);
-		free(var.final);
+		// for(int i = 0; var.command[i]; i++)
+		// {
+		// 	printf("| |\n");
+		// 	printf("|%s|\n", var.command[i]);
+		// }
+		// free(var.final);
 		var.tree = NULL;
 		level1(&var.tree, var.command, 0);
 		execute(var.tree, var.envi, env);
