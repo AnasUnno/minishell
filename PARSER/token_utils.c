@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 18:29:26 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/27 17:36:07 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/29 21:54:21 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,30 +31,33 @@ void	process_operator(char **final, char **str, int *index)
 	(*str)++;
 }
 
-void	count_word_helper(char **str, int *in_quote, char *c, int *count)
+void	fill_final(char **final, char **tmp, int *index, char *operators)
 {
-	char	*white_spaces;
+	char	c;
+	char	*oprators;
 
-	white_spaces = " \t\n";
-	if ((**str == '\'' || **str == '\"') && !*in_quote)
+	c = 0;
+	if (ft_strchr("'\'\"", *(*tmp)))
 	{
-		*in_quote = 1;
-		*c = *(*str)++;
+		c = *(*tmp);
+		(*final)[(*index)++] = *(*tmp)++;
+		while (*tmp && *(*tmp) != c)
+			(*final)[(*index)++] = *(*tmp)++;
+		(*final)[(*index)++] = *(*tmp)++;
 	}
-	else if (*(*str) == *c && *in_quote)
+	else if (ft_strchr(operators, *(*tmp)))
 	{
-		*in_quote = 0;
-		*c = 0;
-		(*str)++;
-	}
-	else if (ft_strchr(white_spaces, *(*str)) && !*in_quote)
-	{
-		while (ft_strchr(white_spaces, *(*str)))
-			(*str)++;
-		(*count)++;
+		if (*(*tmp) == '>' || *(*tmp) == '<')
+			process_operator(final, tmp, index);
+		else
+		{
+			(*final)[(*index)++] = ' ';
+			(*final)[(*index)++] = *(*tmp)++;
+			(*final)[(*index)++] = ' ';
+		}
 	}
 	else
-		(*str)++;
+		(*final)[(*index)++] = *(*tmp)++;
 }
 
 void	helper(int *in_quote, int *i, int *j, int *start)
@@ -77,7 +80,7 @@ char	*helper2(char *str, int *i, int *start)
 		j++;
 	word = (char *)malloc(sizeof(char) * (*i - *start + 1));
 	if (!word)
-		return NULL;
+		return (NULL);
 	if (word != NULL)
 	{
 		ft_strncpy(word, &str[*start], *i - *start);
@@ -85,4 +88,15 @@ char	*helper2(char *str, int *i, int *start)
 		*start = *i;
 	}
 	return (word);
+}
+
+char	*ft_strncpy(char *s1, char *s2, int n)
+{
+	int	i;
+
+	i = -1;
+	while (++i < n && s2[i])
+		s1[i] = s2[i];
+	s1[i] = '\0';
+	return (s1);
 }

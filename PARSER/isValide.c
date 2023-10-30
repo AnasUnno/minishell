@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:46:07 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/25 16:30:54 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/10/29 21:54:07 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,11 @@ int	check_pipes(char *str)
 		if (str[i] == '\'' || str[i] == '\"')
 			i = check_pairs(str, str[i], i + 1, 1);
 		if (str[i] == p && (str[i + 1] == p))
-			return (error(str[i]));
-		if (str[i] == p && ((str[i + 1] == p || !ft_strchar("<>", str[i - 1])) \
-			|| !ft_strchar("<>", str[i - 1]) \
-				&& !space_afterpipe(&str[i + 1], 0)))
-			return (error(str[i - 1]));
+			return (error('|'));
+		if (!ft_strchar("<>", str[i]) && !space_afterpipe(&str[i + 1], 0))
+			return (error('|'));
 		if ((str[i] == p && !space_afterpipe(&str[i + 1], 0)))
-			return (error(str[i]));
+			return (error('|'));
 	}
 	return (1);
 }
@@ -110,10 +108,10 @@ int	is_valide(char *str)
 		if (s[i] == '\'' || s[i] == '\"')
 			i = check_pairs(s, s[i], i + 1, 0);
 		if (i == -1)
-			return (error(s[j]));
+			return (free(s), free(str), error(s[j]));
 	}
 	if (!space_afterpipe(s, 1) || !check_pipes(s) || \
 		!check_ampersand(s) || !check_redirections(s))
-		return (0);
-	return (1);
+		return (free(s), free(str), 0);
+	return (free(s), 1);
 }

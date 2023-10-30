@@ -6,40 +6,11 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 11:07:31 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/27 17:53:49 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/30 18:45:37 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	fill_final(char **final, char **tmp, int *index, char *operators)
-{
-	char	c;
-	char	*oprators;
-
-	c = 0;
-	if (ft_strchr("'\'\"", *(*tmp)))
-	{
-		c = *(*tmp);
-		(*final)[(*index)++] = *(*tmp)++;
-		while (*tmp && *(*tmp) != c)
-			(*final)[(*index)++] = *(*tmp)++;
-		(*final)[(*index)++] = *(*tmp)++;
-	}
-	else if (ft_strchr(operators, *(*tmp)))
-	{
-		if (*(*tmp) == '>' || *(*tmp) == '<')
-			process_operator(final, tmp, index);
-		else
-		{
-			(*final)[(*index)++] = ' ';
-			(*final)[(*index)++] = *(*tmp)++;
-			(*final)[(*index)++] = ' ';
-		}
-	}
-	else
-		(*final)[(*index)++] = *(*tmp)++;
-}
 
 char	*final_str(char *str)
 {
@@ -52,6 +23,7 @@ char	*final_str(char *str)
 	tmp = ft_strtrim(str, " \t\n");
 	free(str);
 	str = NULL;
+	str = tmp;
 	size = ft_strlen(tmp);
 	operators = "<|>";
 	final = ft_calloc((size * 2) + 1, 1);
@@ -60,53 +32,7 @@ char	*final_str(char *str)
 		return (NULL);
 	while (*tmp && index < size * 2)
 		fill_final(&final, &tmp, &index, operators);
-	return (final);
-}
-
-int	count_words(char *str)
-{
-	int		count;
-	int		in_quote;
-	char	c;
-
-	count = 0;
-	in_quote = 0;
-	while (*str)
-		count_word_helper(&str, &in_quote, &c, &count);
-	if (!in_quote)
-		count++;
-	return (count);
-}
-
-char	**ft_split2(char *str)
-{
-	t_vars	var;
-
-	var.white_spaces = " \t\n";
-	helper(&var.in_quote, &var.i, &var.j, &var.start);
-	var.trimmed = ft_strtrim(str, " \t");
-	free(str);
-	var.count = count_words(var.trimmed);
-	var.splited = (char **)malloc(sizeof(char *) * (var.count + 1));
-	while (var.trimmed[var.i])
-	{
-		if ((var.trimmed[var.i] == '\'' || var.trimmed[var.i] == '\"') && !var.in_quote)
-			helper3(var.trimmed, &var.in_quote, &var.i, &var.c);
-		else if (var.trimmed[var.i] == var.c && var.in_quote)
-			helper4(&var.in_quote, &var.i, &var.c);
-		else if (ft_strchr(var.white_spaces, var.trimmed[var.i]) && !var.in_quote)
-			var.splited[var.j++] = helper2(var.trimmed, &var.i, &var.start);
-		else
-			var.i++;
-	}
-	if (!var.in_quote)
-	{
-		var.splited[var.j] = (char *)malloc(sizeof(char) \
-			* ((var.i - var.start) + 1));
-		ft_strncpy(var.splited[var.j++], &var.trimmed[var.start], var.i - var.start);
-	}
-	var.splited[var.j] = NULL;
-	return (free(var.trimmed), var.splited);
+	return (free(str), final);
 }
 
 void	handler(int num)
@@ -124,7 +50,6 @@ void	handler(int num)
 int	main(int ac, char **av, char **env)
 {
 	t_var	var;
-	int		c;
 
 	var.envi = NULL;
 	var.fdbackup = dup(STDIN_FILENO);
@@ -145,26 +70,21 @@ int	main(int ac, char **av, char **env)
 		}
 		add_history(var.cmd);
 		if (!*var.cmd || !is_valide(var.cmd))
-		{
-			free(var.cmd);
 			continue ;
-		}
 		var.final = final_str(var.cmd);
 		var.command = ft_split2(var.final);
-		// for(int i = 0; var.command[i]; i++)
-		// {
-		// 	printf("| |\n");
-		// 	printf("|%s|\n", var.command[i]);
-		// }
-		// free(var.final);
 		var.tree = NULL;
 		level1(&var.tree, var.command, 0);
-		execute(var.tree, var.envi, env);
+		if (get_herdoc_file_name(var.tree, var.envi) == -1)
+		{
+			g_status = 1;
+			free_tree(var.tree);
+			continue ;
+		}
+		execute(var.tree, &var.envi, env);
 		free_tree(var.tree);
-		free_splited(var.command);
-		// free(var.cmd);
+		free_all(var.command);
 	}
-	free_env(&var.envi);
-	rl_clear_history();
+	close(var.fdbackup);
 	return (0);
 }

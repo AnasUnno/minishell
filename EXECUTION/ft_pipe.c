@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:37:47 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/23 18:44:35 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/10/30 18:49:36 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	left(t_tree *tree, int fds[2], t_data *envi, char **env)
 	dup2(fds[1], STDOUT_FILENO);
 	close(fds[0]);
 	close(fds[1]);
-	execute(tree->left, envi, env);
+	execute(tree->left, &envi, env);
 	exit(0);
 }
 
@@ -48,7 +48,7 @@ void	right(t_tree *tree, int fds[2], t_data *envi, char **env)
 	dup2(fds[0], STDIN_FILENO);
 	close(fds[1]);
 	close(fds[0]);
-	execute(tree->right, envi, env);
+	execute(tree->right, &envi, env);
 	exit(0);
 }
 
@@ -69,7 +69,6 @@ void	ft_pipe(t_tree *tree, t_data *envi, char **env)
 	close(fds[0]);
 	close(fds[1]);
 	waitpid(pid1, &g_status, 0);
-	g_status = check_exit_state(g_status);
 	waitpid(pid2, &g_status, 0);
 	g_status = check_exit_state(g_status);
 }

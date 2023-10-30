@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 12:45:49 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/22 20:36:49 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/10/29 22:51:26 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@ int	bring_dequoted_value(char *str, int i, char *s, int j)
 
 int	create_new_str(char *str, char *s, int i, t_data *env)
 {
-	int		j;
-	char	*tmp;
+	t_var	var;
 
-	j = ft_strlen(s);
-	if (str[i - 1] == '\'')
-		i = bring_dequoted_value(str, i, s, j);
+	var.j = ft_strlen(s);
+	if (i >= 1 && str[i - 1] == '\'')
+		i = bring_dequoted_value(str, i, s, var.j);
 	else
 	{
 		while (str[i])
@@ -40,14 +39,15 @@ int	create_new_str(char *str, char *s, int i, t_data *env)
 				break ;
 			if (str[i] == '$')
 			{
-				tmp = get_var_value(str, &i, env, 0);
-				while (*tmp)
-					s[j++] = *tmp++;
+				var.tmp = get_var_value(str, &i, env);
+				var.fr = var.tmp;
+				while (var.tmp && *var.tmp)
+					s[var.j++] = *var.tmp++;
 				continue ;
 			}
-			s[j++] = str[i];
+			s[var.j++] = str[i];
 			i++;
 		}
 	}
-	return (i);
+	return (free_var(var.fr), i);
 }

@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 13:02:42 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/24 22:29:43 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/10/28 21:04:48 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**level3(char **strs, char **cmd, int start)
 
 	i = start;
 	end = start;
-	while (strs[i])
+	while (strs[i] && strs[i][0] != '|')
 	{
 		if (strs[i][0] == '<' || strs[i][0] == '>')
 			i++;
@@ -44,7 +44,7 @@ char	**level3(char **strs, char **cmd, int start)
 	cmd = (char **)calloc((end - start) + 1, sizeof(char *));
 	j = -1;
 	i = start - 1;
-	while (strs[++i])
+	while (strs[++i] && strs[i][0] != '|')
 	{
 		if (strs[i][0] == '<' || strs[i][0] == '>')
 			i++;
@@ -61,7 +61,7 @@ void	level2(t_tree **tree, char **strs, int start, char **cmd)
 	i = start;
 	if (!cmd)
 		cmd = level3(strs, cmd, start);
-	while (strs[i])
+	while (strs[i] && strs[i][0] != '|')
 	{
 		if (strs[i][0] == '<' || strs[i][0] == '>')
 		{
@@ -74,7 +74,7 @@ void	level2(t_tree **tree, char **strs, int start, char **cmd)
 		}
 		i++;
 	}
-	if (*cmd[0])
+	if (cmd[0] && *cmd[0])
 	{
 		create_node(tree, NULL);
 		(*tree)->strs = cmd;
@@ -91,8 +91,6 @@ void	level1(t_tree **tree, char **strs, int start)
 		if (ft_strcmp("|", strs[i]))
 		{
 			create_node(tree, strs[i]);
-			free(strs[i]);
-			strs[i] = NULL;
 			level2(&(*tree)->left, strs, start, NULL);
 			level1(&(*tree)->right, strs, i + 1);
 			return ;

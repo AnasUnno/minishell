@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:49:33 by kzerri            #+#    #+#             */
-/*   Updated: 2023/09/29 11:58:02 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/10/25 19:02:51 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ char	*ft_strchr(char *s, int c)
 	while (*s != (char)c)
 	{
 		if (!*s)
-		{
 			return (NULL);
-		}
 		s++;
 	}
 	return ((char *)s);

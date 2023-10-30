@@ -6,37 +6,28 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 14:21:09 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/24 00:04:48 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/10/29 02:52:54 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_dollar(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '$' && str[i + 1] != '$' && str[i + 1])
-			return (1);
-	}
-	return (0);
-}
-
 void	push_to_s(char *tmp, int j, char *str, char *s)
 {
+	char	*fr;
+
+	fr = tmp;
 	if (!tmp)
 		return ;
-	if (s[j - 1] && s[j - 1] != ' ' && *tmp == ' ')
+	if (j >= 1 && s[j - 1] && s[j - 1] != ' ' && *tmp == ' ')
 		s[j++] = *tmp++;
 	else if (*tmp == ' ')
 		tmp++;
 	while (*tmp)
 		s[j++] = *tmp++;
-	if ((*str == ' ' || !*str) && *(tmp - 1) == ' ')
+	if (*str && (*str == ' ' || !*str) && *(tmp - 1) == ' ')
 		s[j - 1] = 0;
+	free_var(fr);
 }
 
 int	flag(t_tree *tree)
@@ -60,34 +51,32 @@ char	*clean_str(char *str, t_data *env, t_tree *tree)
 			var.i = create_new_str(str, var.s, var.i + 1, env);
 		else if (str[var.i] == '$' && flag(tree))
 		{
-			var.tmp = get_var_value(str, &var.i, env, 1);
+			var.tmp = get_var_value(str, &var.i, env);
 			push_to_s(var.tmp, var.j, &str[var.i], var.s);
-			if (var.tmp && *var.tmp)
-				free(var.tmp);
 			continue ;
 		}
 		else
 			var.s[var.j++] = str[var.i];
 		var.i++;
 	}
-	return (var.s);
+	return (free_var(str), var.s);
 }
 
 void	expand(t_tree *tree, t_data *env, char **environement)
 {
-	int		i;
+	t_v	v;
 
-	i = -1;
-	while (tree->strs[++i])
+	v.i = -1;
+	while (tree->strs[++v.i])
 		;
-	tree->count = i;
-	i = -1;
-	while (tree->strs[++i])
-	{
-		tree->flag = 0;
-		if (check_dollar(tree->strs[i]))
-			tree->strs[i] = clean_str(tree->strs[i], env, tree);
-		else
-			tree->strs[i] = remove_quotes(tree->strs[i]);
-	}
+	v.c = -1;
+	while (tree->strs[++v.c])
+		v.len += allocation(tree->strs[v.c], env);
+	v.strs = (char **)ft_calloc((v.i * v.len) + 1, sizeof(char *));
+	v.i = -1;
+	v.j = 0;
+	while (tree->strs[++v.i])
+		dollar_valid(tree, &v, env);
+	free_all(tree->strs);
+	tree->strs = v.strs;
 }

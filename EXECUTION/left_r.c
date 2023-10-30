@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   left_r.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 18:37:05 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/22 20:49:00 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/10/30 18:48:55 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	ft_left_red(t_tree *tree, t_data *envi, char **env)
 		return ;
 	}
 	dup2(fd, STDIN_FILENO);
-	execute(tree->left, envi, env);
+	execute(tree->left, &envi, env);
 	dup2(backup_fd, STDIN_FILENO);
+	close(backup_fd);
+	close(fd);
 }
