@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_er_fork.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/25 17:46:20 by kzerri            #+#    #+#             */
-/*   Updated: 2023/11/02 23:44:20 by kzerri           ###   ########.fr       */
+/*   Created: 2023/11/01 14:59:12 by kzerri            #+#    #+#             */
+/*   Updated: 2023/11/02 16:39:34 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_bzero(void *b, size_t n)
+void	ft_er_fork(void)
 {
-	unsigned char	*dest;
-	size_t			i;
-
-	dest = b;
-	i = 0;
-	while (i++ < n)
-		*dest++ = 0;
+	ft_printf("fork : Failed");
+	exit(1);
 }
 
-void	*ft_calloc(size_t count, size_t size)
+void	end_exec(char *s, char **args)
 {
-	void	*ptr;
-
-	ptr = (void *)ft_malloc(size * count);
-	if (!ptr)
-		return (NULL);
-	ft_bzero(ptr, count * size);
-	return (ptr);
+	ft_printf("Minishell: %s: command not found !\n", s);
+	free_all(args);
 }

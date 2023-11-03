@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 18:15:38 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/29 21:52:30 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/02 23:44:20 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,26 +72,26 @@ char	**ft_split2(char *str)
 	t_vars	var;
 
 	var.white_spaces = " \t\n";
-	helper(&var.in_quote, &var.i, &var.j, &var.start);
-	var.trimmed = ft_strtrim(str, " \t");
-	var.count = count_words(var.trimmed);
-	var.splited = (char **)malloc(sizeof(char *) * (var.count + 1));
-	while (var.trimmed[var.i])
+	helper(&var.iq, &var.i, &var.j, &var.st);
+	var.tr = ft_strtrim(str, " \t");
+	var.count = count_words(var.tr);
+	var.splited = (char **)ft_malloc(sizeof(char *) * (var.count + 1));
+	while (var.tr[var.i])
 	{
-		if ((var.trimmed[var.i] == '\'' || var.trimmed[var.i] == '\"') && !var.in_quote)
-			helper3(var.trimmed, &var.in_quote, &var.i, &var.c);
-		else if (var.trimmed[var.i] == var.c && var.in_quote)
-			helper4(&var.in_quote, &var.i, &var.c);
-		else if (ft_strchr(var.white_spaces, var.trimmed[var.i]) && !var.in_quote)
-			var.splited[var.j++] = helper2(var.trimmed, &var.i, &var.start);
+		if ((var.tr[var.i] == '\'' || var.tr[var.i] == '\"') && !var.iq)
+			helper3(var.tr, &var.iq, &var.i, &var.c);
+		else if (var.tr[var.i] == var.c && var.iq)
+			helper4(&var.iq, &var.i, &var.c);
+		else if (ft_strchr(var.white_spaces, var.tr[var.i]) && !var.iq)
+			var.splited[var.j++] = helper2(var.tr, &var.i, &var.st);
 		else
 			var.i++;
 	}
-	if (!var.in_quote)
+	if (!var.iq)
 	{
-		var.splited[var.j] = (char *)malloc(sizeof(char) \
-			* ((var.i - var.start) + 1));
-		ft_strncpy(var.splited[var.j++], &var.trimmed[var.start], var.i - var.start);
+		var.splited[var.j] = (char *)ft_malloc(sizeof(char) \
+			* ((var.i - var.st) + 1));
+		ft_strncpy(var.splited[var.j++], &var.tr[var.st], var.i - var.st);
 	}
-	return (var.splited[var.j] = NULL, free(str), free(var.trimmed), var.splited);
+	return (var.splited[var.j] = NULL, free(str), free(var.tr), var.splited);
 }

@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:23:15 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/29 21:50:30 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/10/31 22:18:09 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	dollar_valid(t_tree *tree, t_v *v, t_data *env)
 		tree->strs[v->i] = remove_quotes(tree->strs[v->i]);
 		if (v->strs[v->j])
 			free(v->strs[v->j]);
+		free(v->strs[v->j]);
 		v->strs[v->j++] = ft_strdup(tree->strs[v->i]);
 	}
 }

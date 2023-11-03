@@ -6,7 +6,7 @@
 /*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 08:11:56 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/30 18:57:00 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/11/03 16:18:30 by araji-af         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@
 
 int	g_status;
 
+typedef struct s_cd
+{
+	int		r_type;
+	char	*tmp;
+	char	*str;
+}t_cd;
+
 typedef struct s_tree
 {
 	char			**strs;
@@ -52,7 +59,6 @@ typedef struct s_v
 	int		y;
 }t_v;
 
-
 typedef struct s_data
 {
 	char			*variable;
@@ -65,6 +71,7 @@ typedef struct s_var
 {
 	char	*s;
 	char	*tmp;
+	int		len;
 	int		j;
 	int		i;
 	int		y;
@@ -83,20 +90,22 @@ typedef struct s_export
 	int		end;
 	int		end1;
 	char	*str;
+	int		status;
+	int		i;
 }t_export;
 
 typedef struct s_vars
 {
 	int		i;
-	int		start;
+	int		st;
 	int		j;
 	int		count;
 	char	c;
 	char	**splited;
-	int		in_quote;
+	int		iq;
 	char	*white_spaces;
 	char	*str;
-	char	*trimmed;
+	char	*tr;
 	char	*del;
 	int		fd;
 	int		backup_fd;
@@ -181,7 +190,7 @@ int		ft_isalpha(int c);
 int		ft_isalnum(int c);
 int		ft_isdigit(int c);
 char	*my_strjoin(char *s1, char *s2);
-void	update_pwd(t_data **env, t_data **tmp, t_data **tmp2, char *str);
+void	update_pwd(t_data **env, t_cd var, t_data **tmp, t_data **tmp2);
 int		ft_atoi(char *str);
 int		ft_exit(char **av);
 int		is_format(char half_form);
@@ -207,5 +216,10 @@ char	*clean_str_h(char *str, t_data *envi);
 void	free_vars(t_vars *var);
 void	free_var(char *str);
 int		ft_lstsize(t_data *lst);
-
+void	free_env(t_data **env);
+void	initialise_exp(t_export *exp);
+void	ft_er_fork(void);
+void	cleanup(t_var *var, int x);
+void	end_exec(char *s, char **args);
+void	*ft_malloc(size_t b);
 #endif

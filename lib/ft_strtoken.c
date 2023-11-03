@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:33:55 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/29 13:36:06 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/02 23:44:20 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static	char	**ft_set(char *s1)
 			s1++;
 		if (*s1 == '\0')
 			break ;
-		p[j] = (char *)malloc(sizeof(char) * (letters_c(s1) + 1));
+		p[j] = (char *)ft_malloc(sizeof(char) * (letters_c(s1) + 1));
 		if (!p[j])
 			return (ft_free(p, j));
 		while (*s1 && (*s1 != ' ' && *s1 != '\t'))

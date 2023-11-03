@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 14:19:02 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/18 10:43:57 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/03 01:35:27 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ char	*my_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	new = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!new)
-		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
+	new = ft_malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!new)
+		return (NULL);
 	i = 0;
 	while (s1[i])
 	{

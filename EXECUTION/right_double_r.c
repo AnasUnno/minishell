@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   right_double_r.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 18:37:08 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/30 18:49:51 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:49:48 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_r_double_red(t_tree *tree, t_data *envi, char **env)
 	{
 		perror(tree->right->strs[0]);
 		g_status = 1;
+		close(backup_fd);
 		return ;
 	}
 	dup2(fd, STDOUT_FILENO);

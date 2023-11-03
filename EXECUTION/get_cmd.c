@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:55:36 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/30 18:42:34 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:39:49 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ char	**get_args(char *s, char **args, t_data *env)
 		env = env->next;
 	}
 	if (!env)
-		return (NULL);
-	while (args[++i])
+		return (free_all(args), NULL);
+	while (args && args[++i])
 	{
 		args[i] = ft_strjoin(args[i], "/");
 		args[i] = ft_strjoin(args[i], s);
@@ -41,6 +41,7 @@ char	*get_cmd(char *s, t_data *env)
 	char	**args;
 	int		i;
 
+	args = NULL;
 	if (s && *s)
 	{
 		args = get_args(s, args, env);
@@ -60,6 +61,6 @@ char	*get_cmd(char *s, t_data *env)
 		free(s);
 		s = ft_strdup("");
 	}
-	ft_printf("Minishell: %s: command not found !\n", s);
+	end_exec(s, args);
 	exit(127);
 }

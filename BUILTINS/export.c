@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 21:04:35 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/30 18:41:14 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/11/03 01:16:15 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,13 @@ void	initialize_exp_variable(t_export *var, char *av, t_data *envi)
 
 void	append_operation(t_export *exp, char *av, t_data **envi)
 {
+	char	*tmp;
+
 	if (!exp->tmp)
 	{
 		exp->tmp = ft_mylstnew(ft_substr(av, 0, exp->end),
 				ft_substr(av, exp->end + 2, exp->end1));
+		free(av);
 		if (!envi || !*envi)
 			*envi = exp->tmp;
 		else
@@ -48,11 +51,13 @@ void	append_operation(t_export *exp, char *av, t_data **envi)
 	}
 	else if (exp->tmp)
 	{
+		free(exp->str);
+		tmp = ft_substr(av, exp->end + 2, exp->end1);
 		exp->str = exp->tmp->value;
-		exp->tmp->value = my_strjoin(exp->str,
-				ft_substr(av, exp->end + 2, exp->end1));
-		if (exp->str)
-			free(exp->str);
+		exp->tmp->value = my_strjoin(exp->str, tmp);
+		free(av);
+		free(tmp);
+		free(exp->str);
 		exp->str = NULL;
 	}
 }
@@ -63,6 +68,7 @@ void	create_update(t_export *exp, char *av, t_data **envi)
 	{
 		exp->tmp = ft_mylstnew(ft_substr(av, 0, exp->end),
 				ft_substr(av, exp->end + 1, exp->end1));
+		free(av);
 		if (!envi || !*envi)
 			*envi = exp->tmp;
 		else
@@ -72,37 +78,34 @@ void	create_update(t_export *exp, char *av, t_data **envi)
 	{
 		free(exp->tmp->value);
 		exp->tmp->value = ft_substr(av, exp->end + 1, exp->end1);
+		free(av);
 	}
 }
 
 int	export(char **av, t_data **envi)
 {
-	int			i;
 	t_export	exp;
-	int			status;
 
-	i = 0;
-	status = 0;
-	exp.str = NULL;
+	initialise_exp(&exp);
 	if (!*av)
 		no_option_export(*envi);
-	while (av[i])
+	while (av[exp.i])
 	{
-		initialize_exp_variable(&exp, av[i], *envi);
-		if (!check_export_args(av[i], &status))
-			i++;
+		initialize_exp_variable(&exp, av[exp.i], *envi);
+		if (!check_export_args(av[exp.i], &exp.status))
+			exp.i++;
 		else
 		{
-			if (check_append_new(av[i]) == 0)
-				create_new_var(&exp, av[i], envi);
-			else if (check_append_new(av[i]) == 1)
-				append_operation(&exp, av[i], envi);
+			if (check_append_new(av[exp.i]) == 0)
+				create_new_var(&exp, ft_strdup(av[exp.i]), envi);
+			else if (check_append_new(av[exp.i]) == 1)
+				append_operation(&exp, ft_strdup(av[exp.i]), envi);
 			else
-				create_update(&exp, av[i], envi);
-			i++;
+				create_update(&exp, ft_strdup(av[exp.i]), envi);
+			exp.i++;
 		}
 	}
 	if (exp.str)
 		free(exp.str);
-	return (status);
+	return (exp.status);
 }

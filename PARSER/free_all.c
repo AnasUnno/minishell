@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 14:22:15 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/29 22:15:44 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/03 00:08:00 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,21 @@ void	free_all(char **args)
 	int	i;
 
 	i = -1;
-	if (!args)
-		return ;
-	while (args[++i])
+	while (args && args[++i])
 		free(args[i]);
 	free(args);
+}
+
+void	cleanup(t_var *var, int x)
+{
+	if (!x)
+	{
+		free_tree(var->tree);
+		free_all(var->command);
+	}
+	else
+	{
+		close(var->fdbackup);
+		free_env(&var->envi);
+	}
 }

@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 11:07:31 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/30 18:45:37 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/11/03 00:07:45 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*final_str(char *str)
-{
-	char	*final;
-	char	*operators;
-	int		index;
-	int		size;
-	char	*tmp;
-
-	tmp = ft_strtrim(str, " \t\n");
-	free(str);
-	str = NULL;
-	str = tmp;
-	size = ft_strlen(tmp);
-	operators = "<|>";
-	final = ft_calloc((size * 2) + 1, 1);
-	index = 0;
-	if (!final)
-		return (NULL);
-	while (*tmp && index < size * 2)
-		fill_final(&final, &tmp, &index, operators);
-	return (free(str), final);
-}
 
 void	handler(int num)
 {
@@ -45,31 +22,49 @@ void	handler(int num)
 	ft_putstr_fd("\n", fd[1]);
 	close(fd[0]);
 	close(fd[1]);
+	g_status = 1;
+}
+
+void	initialize_var(t_var *var, char **env)
+{
+	var->envi = NULL;
+	var->fdbackup = dup(STDIN_FILENO);
+	get_environement(env, &var->envi);
+	rl_catch_signals = 0;
+}
+
+void	prepare_minishell(t_var *var)
+{
+	dup2(var->fdbackup, STDIN_FILENO);
+	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
+	var->cmd = readline("$Minishell: ");
+}
+
+int	read_and_validate_command(t_var *var)
+{
+	if (!*var->cmd)
+	{
+		free(var->cmd);
+		return (1);
+	}
+	if (!is_valide(var->cmd))
+		return (1);
+	return (0);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_var	var;
 
-	var.envi = NULL;
-	var.fdbackup = dup(STDIN_FILENO);
-	get_environement(env, &var.envi);
-	rl_catch_signals = 0;
+	initialize_var(&var, env);
 	while (1)
 	{
-		dup2(var.fdbackup, STDIN_FILENO);
-		signal(SIGINT, handler);
-		signal(SIGQUIT, SIG_IGN);
-		var.cmd = readline("$Minishell: ");
+		prepare_minishell(&var);
 		if (!var.cmd)
 			break ;
-		if (!*var.cmd)
-		{
-			free(var.cmd);
-			continue ;
-		}
 		add_history(var.cmd);
-		if (!*var.cmd || !is_valide(var.cmd))
+		if (read_and_validate_command(&var))
 			continue ;
 		var.final = final_str(var.cmd);
 		var.command = ft_split2(var.final);
@@ -78,13 +73,11 @@ int	main(int ac, char **av, char **env)
 		if (get_herdoc_file_name(var.tree, var.envi) == -1)
 		{
 			g_status = 1;
-			free_tree(var.tree);
+			cleanup(&var, 0);
 			continue ;
 		}
 		execute(var.tree, &var.envi, env);
-		free_tree(var.tree);
-		free_all(var.command);
+		cleanup(&var, 0);
 	}
-	close(var.fdbackup);
-	return (0);
+	cleanup(&var, 1);
 }

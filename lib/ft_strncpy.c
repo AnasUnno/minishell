@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/25 17:46:20 by kzerri            #+#    #+#             */
-/*   Updated: 2023/11/02 23:44:20 by kzerri           ###   ########.fr       */
+/*   Created: 2023/11/02 00:33:50 by kzerri            #+#    #+#             */
+/*   Updated: 2023/11/02 00:34:10 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_bzero(void *b, size_t n)
+char	*ft_strncpy(char *s1, char *s2, int n)
 {
-	unsigned char	*dest;
-	size_t			i;
+	int	i;
 
-	dest = b;
-	i = 0;
-	while (i++ < n)
-		*dest++ = 0;
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
-
-	ptr = (void *)ft_malloc(size * count);
-	if (!ptr)
-		return (NULL);
-	ft_bzero(ptr, count * size);
-	return (ptr);
+	i = -1;
+	while (++i < n && s2[i])
+		s1[i] = s2[i];
+	s1[i] = '\0';
+	return (s1);
 }

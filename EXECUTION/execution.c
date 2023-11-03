@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:20:38 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/30 18:48:20 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/11/02 15:11:45 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	cmd_execute(t_tree *tree, t_data *envi, char **env)
 	int	pid;
 
 	pid = fork();
+	if (pid < 0)
+		ft_er_fork();
 	if (!pid)
 	{
 		signal(SIGINT, SIG_DFL);

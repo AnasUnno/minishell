@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 18:37:11 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/29 21:57:25 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/02 23:46:59 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	check_signal(t_vars *var)
 		close(var->backup_fd);
 		return (1);
 	}
+	close(var->backup_fd);
 	return (0);
 }
 

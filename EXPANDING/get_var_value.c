@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 10:39:49 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/29 22:37:12 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/02 23:45:46 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ void	free_strs(char **strs)
 	free(strs);
 }
 
-char	*var_search(t_data *env, char *tmp, int len)
+char	*var_search(t_data *env, char *tmp)
 {
 	int	i;
 
 	i = -1;
 	while (env)
 	{
-		if (!ft_strncmp(env->variable, tmp, len))
+		if (ft_strcmp(env->variable, tmp))
 		{
-			if (!*env->value)
+			if (!env->value)
 				return (free(tmp), NULL);
 			free(tmp);
 			tmp = ft_strdup(env->value);
@@ -67,6 +67,6 @@ char	*get_var_value(char *str, int *x, t_data *env)
 	if (!*tmp)
 		return (tmp);
 	len = ft_strlen(tmp);
-	tmp = var_search(env, tmp, len);
+	tmp = var_search(env, tmp);
 	return (tmp);
 }

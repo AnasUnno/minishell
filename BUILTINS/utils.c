@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:44:34 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/29 14:31:22 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/03 00:22:58 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_data	*ft_mylstnew(char *content, char *content2)
 {
 	t_data	*new;
 
-	new = malloc(sizeof (t_data));
+	new = ft_malloc(sizeof (t_data));
 	if (!new)
 		return (NULL);
 	new->variable = content;
@@ -47,7 +47,7 @@ t_data	*ft_lstlast(t_data *lst)
 	{
 		if (lst->next == NULL)
 			return (lst);
-		lst = lst ->next;
+		lst = lst->next;
 	}
 	return (lst);
 }
@@ -63,9 +63,9 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	if (!len || start >= ft_strlen(s))
 		return (ft_strdup(""));
 	if (len > ft_strlen(s))
-		subs = malloc((sizeof (char) * (ft_strlen(s) - start + 1)));
+		subs = ft_malloc((sizeof (char) * (ft_strlen(s) - start + 1)));
 	else
-		subs = malloc((sizeof (char) * (len + 1)));
+		subs = ft_malloc((sizeof (char) * (len + 1)));
 	if (!subs)
 		return (NULL);
 	i = 0;

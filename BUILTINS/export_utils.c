@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araji-af <araji-af@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:37:31 by araji-af          #+#    #+#             */
-/*   Updated: 2023/10/30 18:41:48 by araji-af         ###   ########.fr       */
+/*   Updated: 2023/11/03 01:08:36 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	check_export_args(char *str, int *status)
 		{
 			if (str[i] != '_' && !ft_isalnum((int)str[i]))
 			{
-				ft_printf("Minishell: export: `%s': not a valid identifier\n", str);
+				ft_printf("Minishell: export: `%s': not a valid identifier\n", 
+					str);
 				return (*status = 1, 0);
 			}
 			i++;
@@ -87,4 +88,6 @@ void	create_new_var(t_export *exp, char *av, t_data **envi)
 		else
 			ft_lstadd_back(envi, exp->tmp);
 	}
+	else
+		free(av);
 }

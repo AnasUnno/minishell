@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 14:44:57 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/20 14:51:42 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/02 23:44:20 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_itoa(int n)
 	long int			l;
 
 	l = count_nbr(n);
-	p = (char *)malloc(sizeof(char) * (l + 1));
+	p = (char *)ft_malloc(sizeof(char) * (l + 1));
 	if (!p)
 		return (NULL);
 	p[l] = '\0';

@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 14:21:09 by kzerri            #+#    #+#             */
-/*   Updated: 2023/10/29 02:52:54 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/01 11:04:34 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ void	expand(t_tree *tree, t_data *env, char **environement)
 {
 	t_v	v;
 
-	v.i = -1;
-	while (tree->strs[++v.i])
-		;
+	v.i = 0;
+	while (tree->strs[v.i])
+		v.i++;
 	v.c = -1;
+	v.len = 0;
 	while (tree->strs[++v.c])
 		v.len += allocation(tree->strs[v.c], env);
 	v.strs = (char **)ft_calloc((v.i * v.len) + 1, sizeof(char *));
