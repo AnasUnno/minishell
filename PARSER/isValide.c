@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:46:07 by kzerri            #+#    #+#             */
-/*   Updated: 2023/11/01 23:52:14 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:20:39 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	is_valide(char *str)
 	i = -1;
 	s = ft_strtrim(str, " \t");
 	if (!*s)
-		return (0);
+		return (free(s), free(str), 0);
 	while (s[++i])
 	{
 		j = i;

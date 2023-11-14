@@ -10,7 +10,8 @@ header	=	minishell.h
 
 CC			=	cc
 
-CFLAGS		=	$(CIFLAGS) -Wall -Wextra -Werror -lreadline
+CFLAGS		=	$(CIFLAGS) -Wall -Wextra -Werror
+
 RM			=	rm -rf
 
 SRCS		=	lib/ft_strlen.c \
@@ -72,10 +73,10 @@ SRCS		=	lib/ft_strlen.c \
 OBJS		= $(SRCS:.c=.o)
 
 $(NAME)		: $(OBJS) $(header)
-			$(CC) $(CFLAGS) $(OBJS)  $(LDFLAGS) -o $(NAME)
+			$(CC) $(CFLAGS) -lreadline $(OBJS)  $(LDFLAGS) -o $(NAME)
 
 %o:%c $(header)
-	$(CC) $(CIFLAGS)  -c $< -o $@
+	$(CC) $(CIFLAGS) $(CFLAGS)  -c $< -o $@
 
 all			:	$(NAME)
 

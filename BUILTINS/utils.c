@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:44:34 by araji-af          #+#    #+#             */
-/*   Updated: 2023/11/03 00:22:58 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/04 13:25:39 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (NULL);
-	if (!len || start >= ft_strlen(s))
+	if (!len || (int)start >= ft_strlen(s))
 		return (ft_strdup(""));
-	if (len > ft_strlen(s))
+	if ((int)len > ft_strlen(s))
 		subs = ft_malloc((sizeof (char) * (ft_strlen(s) - start + 1)));
 	else
 		subs = ft_malloc((sizeof (char) * (len + 1)));

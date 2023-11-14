@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 11:07:31 by araji-af          #+#    #+#             */
-/*   Updated: 2023/11/03 00:07:45 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/07 15:24:47 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	handler(int num)
 {
 	int		fd[2];
 
+	(void)num;
 	rl_replace_line("", 0);
 	pipe(fd);
 	dup2(fd[0], STDIN_FILENO);
@@ -25,8 +26,10 @@ void	handler(int num)
 	g_status = 1;
 }
 
-void	initialize_var(t_var *var, char **env)
+void	initialize_var(int ac, char **av, t_var *var, char **env)
 {
+	(void)ac;
+	(void)av;
 	var->envi = NULL;
 	var->fdbackup = dup(STDIN_FILENO);
 	get_environement(env, &var->envi);
@@ -57,7 +60,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_var	var;
 
-	initialize_var(&var, env);
+	initialize_var(ac, av, &var, env);
 	while (1)
 	{
 		prepare_minishell(&var);

@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 14:21:09 by kzerri            #+#    #+#             */
-/*   Updated: 2023/11/01 11:04:34 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/04 13:24:47 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	expand(t_tree *tree, t_data *env, char **environement)
 {
 	t_v	v;
 
+	(void)environement;
 	v.i = 0;
 	while (tree->strs[v.i])
 		v.i++;

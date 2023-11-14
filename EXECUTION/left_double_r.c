@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 18:37:11 by kzerri            #+#    #+#             */
-/*   Updated: 2023/11/02 23:46:59 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/04 13:24:25 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	signale_handler(int num)
 {
 	int	fds[2];
 
+	(void)num;
 	pipe(fds);
 	rl_replace_line("", 0);
 	dup2(fds[0], STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: kzerri <kzerri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 18:29:26 by kzerri            #+#    #+#             */
-/*   Updated: 2023/11/02 23:44:20 by kzerri           ###   ########.fr       */
+/*   Updated: 2023/11/04 13:24:07 by kzerri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	process_operator(char **final, char **str, int *index)
 void	fill_final(char **final, char **tmp, int *index, char *operators)
 {
 	char	c;
-	char	*oprators;
 
 	c = 0;
 	if (ft_strchr("'\'\"", *(*tmp)))
